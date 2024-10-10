@@ -52,21 +52,24 @@ function displayPokemon(json) {
     const spanHeight = document.querySelector("#pokemon-height");
     const ulTypes = document.querySelector("#pokemon-types");
     const ulAbilities = document.querySelector("#pokemon-abilities");
+    const spanId = document.querySelector("#pokemon-id");
     getPokemonImage(json.id);
     
-    spanName.innerHTML = json.name;
+    spanName.innerHTML = capitalize(json.name);
+    
+    spanId.innerHTML = `n°${json.id.toString().padStart(4, "0")}`
     spanWeight.innerHTML = `${json.weight}lbs`;
     spanHeight.innerHTML = `${json.height}"`;
     
     ulTypes.innerHTML = "";
     for(let i = 0 ; i < json.types.length; i++) {
-        ulTypes.innerHTML += `<li>${json.types[i].type.name}</li>`;
+        ulTypes.innerHTML += `<li class="list-group-item">${capitalize(json.types[i].type.name)}</li>`;
         
     }
     
     ulAbilities.innerHTML = "";
     for(let i = 0; i < json.abilities.length; i++) {
-        ulAbilities.innerHTML += `<li>${json.abilities[i].ability.name}</li>`;
+        ulAbilities.innerHTML += `<li class="list-group-item">${capitalize(json.abilities[i].ability.name)}</li>`;
     };
 }
 
@@ -75,6 +78,7 @@ function displayPokemonImage(json) {
     const img = document.querySelector("#pokemon-picture");
     img.setAttribute("src", json.sprites.front_default);
     img.setAttribute("alt", `${json.name} sprite`);
+    img.setAttribute("class", "pixelated");
 }
 
 buttNext.addEventListener("click", () => {
@@ -92,3 +96,13 @@ buttPrev.addEventListener("click", () => {
     }
     getPokemon(prevId);
 })
+
+
+/**
+ * 
+ * @param {string} str 
+ * @returns {string} capitalized string
+ */
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.substring(1);
+}
